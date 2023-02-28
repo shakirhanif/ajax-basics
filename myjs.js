@@ -21,12 +21,13 @@ function formSubmit(e) {
 }
 
 document.getElementById("getUsers").addEventListener("click", getUsers);
+var cond = true;
 function getUsers() {
   var rr = new XMLHttpRequest();
   rr.open("POST", "user.php", true);
   rr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
   rr.onload = function () {
-    if (this.status == 200) {
+    if (this.status == 200 && cond) {
       let res = JSON.parse(this.responseText);
       for (let i = 0; i < res.length; i++) {
         const username = res[i].username;
@@ -37,7 +38,8 @@ function getUsers() {
         var form = document.getElementById("getUsers");
         document.body.insertBefore(newP, form.nextSibling);
       }
+      cond = false;
     }
   };
-  rr.send("getusers=yes");
+  rr.send("getusers");
 }
