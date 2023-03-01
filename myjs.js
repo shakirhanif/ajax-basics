@@ -22,22 +22,21 @@ function formSubmit(e) {
 
 document.getElementById("getUsers").addEventListener("click", getUsers);
 var cond = true;
-async function getUsers() {
+function getUsers() {
   try {
-    const { data, status } = await axios.post("user.php", "getusers");
-    if (status == 200 && cond) {
-      cond = false;
-      data.forEach((x) => {
-        const newEl = document.createElement("div");
-        newEl.setAttribute("id", x.username);
-        newEl.appendChild(document.createTextNode(""));
-        newEl.innerHTML = "<p class='new'>" + x.username + "</p>";
-        document.body.insertBefore(
-          newEl,
-          document.getElementById("getUsers").nextSibling
-        );
-      });
-    }
+    axios.post("user.php", "getusers").then(({ data, status }) => {
+      if (status == 200 && cond) {
+        data.forEach((x) => {
+          var newEl = document.createElement("p");
+          newEl.appendChild(document.createTextNode(""));
+          newEl.innerHTML = x.username;
+          document.body.insertBefore(
+            newEl,
+            document.getElementById("getUsers").nextSibling
+          );
+        });
+      }
+    });
   } catch (error) {
     console.log(error);
   }
