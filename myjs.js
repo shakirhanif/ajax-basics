@@ -24,19 +24,26 @@ document.getElementById("getUsers").addEventListener("click", getUsers);
 var cond = true;
 function getUsers() {
   try {
-    axios.post("user.php", "getusers").then(({ data, status }) => {
-      if (status == 200 && cond) {
-        data.forEach((x) => {
-          var newEl = document.createElement("p");
-          newEl.appendChild(document.createTextNode(""));
-          newEl.innerHTML = x.username;
-          document.body.insertBefore(
-            newEl,
-            document.getElementById("getUsers").nextSibling
-          );
-        });
-      }
-    });
+    var formData = new FormData();
+    formData.append("getusers", "new");
+    axios
+      .post("user.php", "getusers=some&gold=fiftyy")
+      .then(({ data, status }) => {
+        console.log(data);
+        if (status == 200 && cond) {
+          data.forEach((x) => {
+            if (x.username) {
+              var newEl = document.createElement("p");
+              newEl.appendChild(document.createTextNode(""));
+              newEl.innerHTML = x.username;
+              document.body.insertBefore(
+                newEl,
+                document.getElementById("getUsers").nextSibling
+              );
+            }
+          });
+        }
+      });
   } catch (error) {
     console.log(error);
   }

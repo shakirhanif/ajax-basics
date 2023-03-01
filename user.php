@@ -9,7 +9,6 @@
     } catch (\PDOException $th) {
         echo $th->getMessage();
     }
-    
     if(isset($_POST['username'])){
         $username=$_POST['username'];
         $insert=$conn->prepare("insert into users (username) values (:username)");
@@ -20,6 +19,8 @@
         $get=$conn->prepare("select * from users;");
         $get->execute();
         $rows=$get->fetchAll(PDO::FETCH_ASSOC);
+        array_push($rows,$_POST["getusers"]);
+        array_push($rows,$_POST["gold"]);
         echo json_encode($rows);
     }
 
